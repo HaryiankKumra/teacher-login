@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = 'mongodb+srv://vinayakjainlife:suddendeath123@cluster0.efw6gnu.mongodb.net/vvv'  # Change this to a secure key
 
 # MongoDB connection
-client = MongoClient('mongodb://localhost:27017/')  # Replace with your MongoDB URI
+client = MongoClient('mongodb+srv://vinayakjainlife:suddendeath123@cluster0.efw6gnu.mongodb.net/vvv')  # Replace with your MongoDB URI
 db = client['school_portal']
 users_collection = db['users']
 
