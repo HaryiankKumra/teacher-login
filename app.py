@@ -1,21 +1,16 @@
-import os
-from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# Load environment variables from .env file
-load_dotenv()
-
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "default-secret-key")  # Use environment variable
+app.secret_key = 'mongodb+srv://vinayakjainlife:suddendeath123@cluster0.efw6gnu.mongodb.net/vvv'  # Change this to a secure key
 
 # MongoDB connection
-MONGO_URI = os.getenv("MONGO_URI")
-client = MongoClient(MONGO_URI)
+client = MongoClient('mongodb://localhost:27017/')  # Replace with your MongoDB URI
 db = client['school_portal']
 users_collection = db['users']
 
+# Routes
 @app.route('/')
 def index():
     if 'email' in session:
@@ -48,6 +43,7 @@ def signup():
         if users_collection.find_one({'email': email}):
             flash('Email already exists', 'error')
         else:
+            # Use a valid hashing method like 'pbkdf2:sha256'
             hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
             users_collection.insert_one({
                 'email': email,
@@ -65,6 +61,5 @@ def logout():
     flash('Logged out successfully!', 'success')
     return redirect(url_for('signin'))
 
-# Required for Vercel
-def handler(event, context):
-    return app(event, context)
+if __name__ == '__main__':
+    app.run(debug=True)
