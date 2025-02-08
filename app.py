@@ -1,12 +1,18 @@
+import os
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# Load environment variables from .env file
+load_dotenv()
+
 app = Flask(__name__)
-app.secret_key = 'mongodb+srv://vinayakjainlife:suddendeath123@cluster0.efw6gnu.mongodb.net/vvv'  # Change this to a secure key
+app.secret_key = os.getenv("SECRET_KEY", "default-secret-key")  # Use environment variable
 
 # MongoDB connection
-client = MongoClient('mongodb+srv://vinayakjainlife:suddendeath123@cluster0.efw6gnu.mongodb.net/vvv')  # Replace with your MongoDB URI
+MONGO_URI = os.getenv("MONGO_URI")
+client = MongoClient(MONGO_URI)
 db = client['school_portal']
 users_collection = db['users']
 
@@ -59,6 +65,6 @@ def logout():
     flash('Logged out successfully!', 'success')
     return redirect(url_for('signin'))
 
-# # Required for Vercel
-# def handler(event, context):
-#     return app(event, context)
+# Required for Vercel
+def handler(event, context):
+    return app(event, context)
