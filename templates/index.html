@@ -29,11 +29,11 @@
 
             // Set the correct dashboard link based on role
             if (role === "student") {
-                continueBtn.href = "/student-dashboard";
+                continueBtn.href = "https://learnosphere.vercel.app/student/index.html";
             } else if (role === "teacher") {
                 continueBtn.href = "https://learnosphere.vercel.app/";
             } else {
-                continueBtn.href = "#"; // Default case
+                continueBtn.href = "https://learnosphere.vercel.app/student/index.html"; // Default case
                 continueBtn.textContent = "Invalid Role";
                 continueBtn.classList.add("bg-gray-400", "cursor-not-allowed");
             }
